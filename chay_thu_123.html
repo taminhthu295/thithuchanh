@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chạy thử Câu 1, 2, 3</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 40px; background-color: #f9f9f9; }
+        .card { background: white; max-width: 450px; margin: 0 auto; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        button { display: block; width: 100%; margin: 12px 0; padding: 12px; font-size: 16px; font-weight: bold; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #ketqua { margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 5px; text-align: left; font-size: 15px; white-space: pre-line; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Kiểm tra bài tập JS (Câu 1, 2, 3)</h2>
+        <p>Bấm vào từng nút bên dưới để nhập và kiểm tra:</p>
+
+        <button onclick="chayCau1()">👉 Chạy Câu 1 (TBC chia hết cho 3)</button>
+        <button onclick="chayCau2()">👉 Chạy Câu 2 (Số hoàn hảo)</button>
+        <button onclick="chayCau3()">👉 Chạy Câu 3 (Đếm số ngày trong tháng)</button>
+
+        <div id="ketqua">Kết quả sẽ hiển thị ở đây...</div>
+    </div>
+
+    <script>
+        const hienThi = document.getElementById("ketqua");
+
+        // CÂU 1
+        function chayCau1() {
+            let n = parseInt(prompt("Nhập số lượng phần tử (<= 50):"));
+            if (isNaN(n) || n <= 0 || n > 50) {
+                alert("Số lượng phần tử không hợp lệ (phải từ 1 đến 50)!");
+                return;
+            }
+
+            let arr = [];
+            for (let i = 0; i < n; i++) {
+                let x = parseInt(prompt("Nhập phần tử thứ " + (i + 1) + ":"));
+                arr.push(x);
+            }
+
+            let tong = 0, dem = 0;
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] % 3 === 0) {
+                    tong += arr[i];
+                    dem++;
+                }
+            }
+
+            let ketQua = "【CÂU 1】\n- Mảng vừa nhập: " + arr.join(", ") + "\n";
+            if (dem === 0) {
+                ketQua += "- Không có số nào chia hết cho 3.";
+            } else {
+                ketQua += "- Trung bình cộng các số chia hết cho 3: " + (tong / dem);
+            }
+            hienThi.innerText = ketQua;
+        }
+
+        // CÂU 2
+        function isPerfectNumber(n) {
+            if (n <= 1) return false;
+            let tongUoc = 0;
+            for (let i = 1; i < n; i++) {
+                if (n % i === 0) tongUoc += i;
+            }
+            return tongUoc === n;
+        }
+
+        function chayCau2() {
+            let n = parseInt(prompt("Nhập một số nguyên dương:"));
+            if (isNaN(n) || n <= 0) {
+                alert("Vui lòng nhập số nguyên dương!");
+                return;
+            }
+
+            let check = isPerfectNumber(n);
+            let ketQua = "【CÂU 2】\nSố " + n + (check ? " LÀ số hoàn hảo (tổng ước bằng chính nó)." : " KHÔNG PHẢI là số hoàn hảo.");
+            hienThi.innerText = ketQua;
+        }
+
+        // CÂU 3
+        function chayCau3() {
+            let input = prompt("Nhập tháng/năm theo định dạng MM/yyyy (Ví dụ 02/2024):");
+            if (!input || !input.includes("/")) {
+                alert("Định dạng không hợp lệ!");
+                return;
+            }
+
+            let parts = input.split("/");
+            let thang = parseInt(parts[0]);
+            let nam = parseInt(parts[1]);
+
+            let laNamNhuan = (nam % 4 === 0 && nam % 100 !== 0) || (nam % 400 === 0);
+            let soNgay = 0;
+
+            switch (thang) {
+                case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                    soNgay = 31; break;
+                case 4: case 6: case 9: case 11:
+                    soNgay = 30; break;
+                case 2:
+                    soNgay = laNamNhuan ? 29 : 28; break;
+                default:
+                    alert("Tháng không hợp lệ (1 - 12)!");
+                    return;
+            }
+
+            let ketQua = "【CÂU 3】\nTháng " + thang + "/" + nam + " có " + soNgay + " ngày." + 
+                         (thang === 2 ? (laNamNhuan ? " (Năm nhuận)" : " (Năm thường)") : "");
+            hienThi.innerText = ketQua;
+        }
+    </script>
+</body>
+</html>
